@@ -6,7 +6,7 @@ from django.contrib.auth import login, authenticate,logout
 
 
 class LoginViw(View):
-    def get(self,request,*args,**kwargs):
+    def get(self,request,*args,**kwargs):        
         context={}     
         return  render(request,'login.html',context)
     
@@ -23,7 +23,7 @@ class LoginViw(View):
         
 
         else:
-            print("hola")
+            
             context= {"error" : "Usuario o contraseña incorrecta"}
             return render(request,'login.html',context)
 
@@ -34,10 +34,19 @@ class Logout(View):
         return  redirect("login")
     
 class InfoView(View):
-    def get(self,request,*args,**kwargs):     
-        return  render(request,'info.html' )
+    def get(self,request,*args,**kwargs):
+        if request.user.is_authenticated: 
+                
+            return  render(request,'info.html' )
 
 
 class FormView(View):
     def get(self,request,*args,**kwargs):
-        return render(request,'formulario.html')
+        if request.user.is_authenticated:
+            return render(request,'formulario.html')
+    
+
+class TrabView(View):
+    def get(self,request,*args,**kwargs):
+        if request.user.is_authenticated:
+            return render(request,'trabajo.html')    
